@@ -409,7 +409,13 @@ app.directive('pageview', ['$rootScope',
 	    		}
     		}
             
-            $ctrl.ngModel = $scope.currentPageRecords = currentPageRecords;
+//          	$ctrl.ngModel = $scope.currentPageRecords = currentPageRecords;
+//    		console.log('currentPageRecords.length:'+currentPageRecords.length);
+    		if(currentPageRecords && currentPageRecords.length){
+    			$ctrl.ngModel = $scope.currentPageRecords = currentPageRecords;
+    		}else{
+    			$scope.DisplayMessage = "End of records.";
+    		}
     	}
 
     	$scope.GetNextPageRecords = function(pageNum, lastRecordIndex, criteriaObj){
