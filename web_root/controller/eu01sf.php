@@ -68,12 +68,25 @@ function ImportData($httpRequest){
 
 	if($fileExistsInUserFolder)
 		$responseArray = $importManager->Import($excelFileLocation);
-
-	// if(!$fileExistsInUploadFolder || !$fileExistsInUserFolder)
-	// {
-	// 	$responseArray['access_status'] = $importManager->access_status["Fail"];
-	// 	$responseArray['error'] = "file was found at: $excelFileLocation";
-	// }
+    
+    // 20200128, Get imported Staff list
+	$webuserManager = new WebuserManager();
+    $createdStaffList = array();
+    
+    // 20200128, Create webuser records
+	foreach ($createdStaffList as $keyIndex => $createdStaff) {
+        // read the staff record
+        $staffBirthDay = date('Ymd');
+        $staffID = "";
+        
+		$webuserManager->LoginID = $staffID;
+		$webuserManager->Password = $securityManager->Hash($staffBirthDay);
+		$webuserManager->AccountType = "staff";
+		$webuserManager->ActivateDate = date('Y-m-d H:i:s');
+		$webuserManager->Status = "a";
+        
+		$webuserInsertResultArray = $webuserManager->insert();
+	}
 
 	return $responseArray;
 }
